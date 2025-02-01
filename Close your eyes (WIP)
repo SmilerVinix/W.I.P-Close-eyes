@@ -1,36 +1,44 @@
-local Players = game:GetService("Players")
-local player = Players.LocalPlayer
-local backpack = player:FindFirstChild("Backpack")
+--[[
+This was made by Iddo n me on discord
+----------------------------------------------------------
+]]
 
--- Create the Tool
-local tool = Instance.new("Tool")
-tool.Name = "W.I.P close eyes"
-tool.RequiresHandle = false -- No need for a handle
-tool.Parent = backpack -- Put tool in inventory
+local player = game.Players.LocalPlayer
+repeat wait() until player.Character
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoid = character:WaitForChild("Humanoid")
+local StarterGui = game:GetService("StarterGui")
 
--- Create the Black Screen GUI
-local screenGui = Instance.new("ScreenGui")
-screenGui.Name = "BlackoutGui"
-screenGui.ResetOnSpawn = false
+local NotificationBindable = Instance.new("BindableFunction")
 
-local blackFrame = Instance.new("Frame")
-blackFrame.Size = UDim2.new(1, 0, 1, 0) -- Full screen
-blackFrame.Position = UDim2.new(0, 0, 0, 0)
-blackFrame.BackgroundColor3 = Color3.new(0, 0, 0) -- Black color
-blackFrame.Visible = false
-blackFrame.Parent = screenGui
+NotificationBindable.OnInvoke = function(buttonClicked)
+    if buttonClicked == "Enjoy" then
+        print("User acknowledged the notification.")
+        
+        -- Run the external script
+        local success, err = pcall(function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/SmilerVinix/W.I.P-Close-eyes/refs/heads/main/Close%20your%20eyes%20(WIP)"))()
+        end)
+        
+        if not success then
+            warn("Failed to execute script: " .. tostring(err))
+        end
 
-screenGui.Parent = player:WaitForChild("PlayerGui")
-
--- Functions to show/hide the black screen
-local function onEquipped()
-    blackFrame.Visible = true
+        -- Show a badge notification saying the script is active
+        StarterGui:SetCore("SendNotification", {
+            Title = "Cover your eyes script 2025.",
+            Text = "Not patched.",
+            Duration = 5, -- How long the notification stays on screen
+            Button1Text = "OK", -- Button text
+        })
+    end
 end
 
-local function onUnequipped()
-    blackFrame.Visible = false
-end
-
--- Connect events
-tool.Equipped:Connect(onEquipped)
-tool.Unequipped:Connect(onUnequipped)
+-- Send the first notification
+StarterGui:SetCore("SendNotification", {
+    Title = "Vinix hub.",
+    Text = "Thank you for using vinix hub!",
+    Duration = 5, -- How long the notification stays on screen
+    Button1Text = "Enjoy", -- Button text
+    Callback = NotificationBindable -- Function for button interaction
+})
