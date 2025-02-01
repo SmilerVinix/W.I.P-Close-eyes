@@ -15,18 +15,9 @@ NotificationBindable.OnInvoke = function(buttonClicked)
     if buttonClicked == "Enjoy" then
         print("User acknowledged the notification.")
         
-        -- Run the external script
-        local success, err = pcall(function()
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/SmilerVinix/W.I.P-Close-eyes/refs/heads/main/Close%20your%20eyes%20(WIP)"))()
-        end)
-        
-        if not success then
-            warn("Failed to execute script: " .. tostring(err))
-        end
-
-        -- Show a badge notification saying the script is active
+        -- Show the badge notification first
         StarterGui:SetCore("SendNotification", {
-            Title = "Cover your eyes script 2025.",
+            Title = "Cover yours 2025",
             Text = "Not patched.",
             Duration = 5, -- How long the notification stays on screen
             Button1Text = "OK", -- Button text
@@ -34,11 +25,27 @@ NotificationBindable.OnInvoke = function(buttonClicked)
     end
 end
 
--- Send the first notification
+-- Send the first notification with "Enjoy" button
 StarterGui:SetCore("SendNotification", {
-    Title = "Vinix hub.",
-    Text = "Thank you for using vinix hub!",
+    Title = "Cover yours 2025",
+    Text = "Thank you for using my script!",
     Duration = 5, -- How long the notification stays on screen
     Button1Text = "Enjoy", -- Button text
     Callback = NotificationBindable -- Function for button interaction
 })
+
+-- Now after the player clicks "OK" on the badge notification, the script will run
+NotificationBindable.OnInvoke = function(buttonClicked)
+    if buttonClicked == "OK" then
+        print("Player clicked OK, running the external script.")
+        
+        -- Run the external script after the player acknowledges the badge
+        local success, err = pcall(function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/SmilerVinix/W.I.P-Close-eyes/refs/heads/main/Close%20your%20eyes%20(WIP)"))()
+        end)
+        
+        if not success then
+            warn("Failed to execute script: " .. tostring(err))
+        end
+    end
+end
