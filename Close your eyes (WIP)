@@ -1,0 +1,36 @@
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+local backpack = player:FindFirstChild("Backpack")
+
+-- Create the Tool
+local tool = Instance.new("Tool")
+tool.Name = "W.I.P close eyes"
+tool.RequiresHandle = false -- No need for a handle
+tool.Parent = backpack -- Put tool in inventory
+
+-- Create the Black Screen GUI
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "BlackoutGui"
+screenGui.ResetOnSpawn = false
+
+local blackFrame = Instance.new("Frame")
+blackFrame.Size = UDim2.new(1, 0, 1, 0) -- Full screen
+blackFrame.Position = UDim2.new(0, 0, 0, 0)
+blackFrame.BackgroundColor3 = Color3.new(0, 0, 0) -- Black color
+blackFrame.Visible = false
+blackFrame.Parent = screenGui
+
+screenGui.Parent = player:WaitForChild("PlayerGui")
+
+-- Functions to show/hide the black screen
+local function onEquipped()
+    blackFrame.Visible = true
+end
+
+local function onUnequipped()
+    blackFrame.Visible = false
+end
+
+-- Connect events
+tool.Equipped:Connect(onEquipped)
+tool.Unequipped:Connect(onUnequipped)
